@@ -16,24 +16,23 @@ local user_color='yellow'
 test $UID -eq 0 && user_color='red'
 
 _sunakayu_vcs_status() {
-  jj_prompt_template 'if(!self.empty(), "!")' \
+  local ref='self.change_id().shortest(3)'
+  local empty_color="$fg[green]"
+  local nonempty_color="$fg[magenta]"
+
+  jj_prompt_template_raw "if(self.empty(), \"%{$empty_color%}\", \"%{$nonempty_color%}\") ++ $ref ++ \" \"" \
   || git_prompt_status
 }
 
 _sunakayu_vcs_info() {
-  jj_prompt_template 'self.change_id().shortest(3) ++ " "' \
+  jj_prompt_template 'surround("", " ", self.description().first_line())' \
   || git_prompt_info
-}
-
-_sunakayu_vcs_short_desc() {
-  jj_prompt_template 'surround("", " ", self.description().first_line())'
 }
 
 PROMPT='%(?..%{$fg_bold[red]%}exit %?
 %{$reset_color%})'\
 '%{$bold_color%}$(_sunakayu_vcs_status)%{$reset_color%}'\
 '$(_sunakayu_vcs_info)'\
-'%{$bold_color%}$(_sunakayu_vcs_short_desc)%{$reset_color%}'\
 '%{$fg[$user_color]%}%~%{$reset_color%}'\
 '%(!.#.>) '
 
