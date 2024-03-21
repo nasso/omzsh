@@ -23,16 +23,24 @@ _sunakayu_vcs_status() {
   jj_prompt_template_raw "if(self.empty(), \"%{$empty_color%}\", \"%{$nonempty_color%}\") ++ $ref ++ \" \"" \
   || git_prompt_status
 }
+_omz_register_handler _sunakayu_vcs_status
+_sunakayu_vcs_status_async() {
+  echo -n $_OMZ_ASYNC_OUTPUT[_sunakayu_vcs_status]
+}
 
 _sunakayu_vcs_info() {
   jj_prompt_template 'surround("", " ", self.description().first_line())' \
   || git_prompt_info
 }
+_omz_register_handler _sunakayu_vcs_info
+_sunakayu_vcs_info_async() {
+  echo -n $_OMZ_ASYNC_OUTPUT[_sunakayu_vcs_info]
+}
 
 PROMPT='%(?..%{$fg_bold[red]%}exit %?
 %{$reset_color%})'\
-'%{$bold_color%}$(_sunakayu_vcs_status)%{$reset_color%}'\
-'$(_sunakayu_vcs_info)'\
+'%{$bold_color%}$(_sunakayu_vcs_status_async)%{$reset_color%}'\
+'$(_sunakayu_vcs_info_async)'\
 '%{$fg[$user_color]%}%~%{$reset_color%}'\
 '%(!.#.>) '
 
