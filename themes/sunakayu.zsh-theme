@@ -42,6 +42,7 @@ test -n "${SSH_CONNECTION}${SSH_CLIENT}${SSH_TTY}" && machine_name="%n@%m "
 
 PROMPT='%(?..%{$fg_bold[red]%}exit %?
 %{$reset_color%})'\
+'%(1j.%{$fg_bold[red]%}[%j] %{$reset_color%}.)'\
 '%{$bold_color%}'\
 '$machine_name'\
 '$(_sunakayu_vcs_status_async)'\
